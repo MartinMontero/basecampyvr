@@ -425,6 +425,11 @@ window.addEventListener('scroll',()=>{
 })();
 
 // Failsafe: reveal all content after 1.5s even if observer fails
+  // Fix hash links — reveal target section immediately
+if(window.location.hash){
+  var target=document.querySelector(window.location.hash);
+  if(target){target.classList.add('vis');target.scrollIntoView();}
+}
 setTimeout(function(){
   document.querySelectorAll('.rv').forEach(function(el){el.classList.add('vis');});
 },1500);
