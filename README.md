@@ -27,7 +27,22 @@ basecampyvr/
 
 ### Live site
 
-`https://martinmontero.github.io/basecampyvr/`
+- Custom domain: `https://basecampyvr.ca` (proxied through Cloudflare → GitHub Pages)
+- GitHub Pages default: `https://martinmontero.github.io/basecampyvr/`
+
+> [!IMPORTANT]
+> The `CNAME` file in the repo root (containing `basecampyvr.ca`) is **load-bearing** — do not delete it.
+> It tells GitHub Pages to serve the custom domain; removing it makes GitHub return a 404 for
+> `basecampyvr.ca` and breaks the live site.
+>
+> **DNS / TLS is on Cloudflare, not GitHub.** The domain is proxied (orange cloud), so the
+> browser's TLS handshake terminates at Cloudflare's edge. If visitors see an SSL error
+> (e.g. `SSL_ERROR_NO_CYPHER_OVERLAP`), fix it in the **Cloudflare dashboard**, not this repo:
+> 1. **SSL/TLS → Overview** → set encryption mode to **Full**.
+> 2. **SSL/TLS → Edge Certificates** → confirm the **Universal SSL** certificate is *Active*
+>    (re-enable / wait for it to provision if not), and set **Minimum TLS Version** to **1.0** or **1.2**.
+> 3. In GitHub **Settings → Pages**, confirm the custom domain is `basecampyvr.ca` and re-enable
+>    **Enforce HTTPS** once Cloudflare's edge certificate is active.
 
 ## Forms
 
@@ -69,7 +84,7 @@ Both options include: utilities, Wi-Fi, kitchen access, home theatre, lounge and
 
 ## Tech Stack
 
-- **Hosting:** GitHub Pages
+- **Hosting:** GitHub Pages (origin) behind Cloudflare (DNS + proxy/TLS) on `basecampyvr.ca`
 - **Architecture:** Single self-contained HTML file (no build step, no framework)
 - **Forms:** mailto fallback (upgradeable to Tally.so)
 - **Fonts:** [Fraunces](https://fonts.google.com/specimen/Fraunces) + [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) via Google Fonts
