@@ -14,7 +14,7 @@ Basecamp is the Vancouver continuation of a model first built in Philadelphia in
 
 ## Site
 
-The site is a single self-contained `index.html` file hosted on GitHub Pages. All images (photography and logo), CSS, and JavaScript are embedded directly — no external dependencies beyond Google Fonts.
+The site is a single self-contained `index.html` file. All images (photography and logo), CSS, and JavaScript are embedded directly — no external dependencies beyond Google Fonts. It is served from a **Cloudflare Worker** (`basecampyvr`) on the Cloudflare-registered domain `basecampyvr.ca`; this repo is the source of truth for the HTML.
 
 ### Repository structure
 
@@ -27,22 +27,30 @@ basecampyvr/
 
 ### Live site
 
-- Custom domain: `https://basecampyvr.ca` (proxied through Cloudflare → GitHub Pages)
-- GitHub Pages default: `https://martinmontero.github.io/basecampyvr/`
+`https://basecampyvr.ca` — served by the Cloudflare Worker **`basecampyvr`** (a Worker Custom Domain).
+The domain is registered with **Cloudflare Registrar**; DNS, TLS, and hosting are all on Cloudflare.
+
+> [!WARNING]
+> **Do not serve this domain from GitHub Pages, and do not add a `CNAME` file to this repo.**
+> `basecampyvr.ca` was previously attached to GitHub Pages as a custom domain, which caused an
+> outage (GitHub's custom-domain verification conflicts with the domain being claimed elsewhere).
+> The domain now belongs to the Cloudflare Worker. A `CNAME` file re-registers the GitHub Pages
+> custom-domain claim and re-triggers that conflict — leave it out. Ignore the "Enforce HTTPS"
+> option in GitHub **Settings → Pages**; it can never validate while Cloudflare owns the domain.
 
 > [!IMPORTANT]
-> The `CNAME` file in the repo root (containing `basecampyvr.ca`) is **load-bearing** — do not delete it.
-> It tells GitHub Pages to serve the custom domain; removing it makes GitHub return a 404 for
-> `basecampyvr.ca` and breaks the live site.
+> The domain is a **Worker Custom Domain**, so its DNS record shows Type `Worker` and its proxy
+> status is **locked to Proxied** (you cannot switch it to "DNS only" — the traffic must reach the
+> Worker at Cloudflare's edge). TLS terminates at Cloudflare using an auto-issued edge certificate.
 >
-> **DNS / TLS is on Cloudflare, not GitHub.** The domain is proxied (orange cloud), so the
-> browser's TLS handshake terminates at Cloudflare's edge. If visitors see an SSL error
-> (e.g. `SSL_ERROR_NO_CYPHER_OVERLAP`), fix it in the **Cloudflare dashboard**, not this repo:
-> 1. **SSL/TLS → Overview** → set encryption mode to **Full**.
-> 2. **SSL/TLS → Edge Certificates** → confirm the **Universal SSL** certificate is *Active*
->    (re-enable / wait for it to provision if not), and set **Minimum TLS Version** to **1.0** or **1.2**.
-> 3. In GitHub **Settings → Pages**, confirm the custom domain is `basecampyvr.ca` and re-enable
->    **Enforce HTTPS** once Cloudflare's edge certificate is active.
+> If visitors see an SSL error (e.g. `SSL_ERROR_NO_CYPHER_OVERLAP`), the edge certificate for
+> `basecampyvr.ca` is not active. Fix it in the **Cloudflare dashboard**:
+> 1. **Workers & Pages → `basecampyvr` → Domains** — check the status of `basecampyvr.ca`. If the
+>    certificate is *Pending/Initializing*, wait (minutes up to ~1 hour). If it is stuck or errored,
+>    **remove** the custom domain and **re-add** it to re-issue the certificate.
+> 2. **SSL/TLS → Edge Certificates** — confirm **Universal SSL** is enabled and the cert pack for
+>    `basecampyvr.ca` is *Active*; set **Minimum TLS Version** to **1.0** or **1.2** (not 1.3-only)
+>    and keep **TLS 1.3** on.
 
 ## Forms
 
@@ -84,7 +92,7 @@ Both options include: utilities, Wi-Fi, kitchen access, home theatre, lounge and
 
 ## Tech Stack
 
-- **Hosting:** GitHub Pages (origin) behind Cloudflare (DNS + proxy/TLS) on `basecampyvr.ca`
+- **Hosting:** Cloudflare Worker (`basecampyvr`) on `basecampyvr.ca` (Cloudflare Registrar + DNS + TLS)
 - **Architecture:** Single self-contained HTML file (no build step, no framework)
 - **Forms:** mailto fallback (upgradeable to Tally.so)
 - **Fonts:** [Fraunces](https://fonts.google.com/specimen/Fraunces) + [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) via Google Fonts
