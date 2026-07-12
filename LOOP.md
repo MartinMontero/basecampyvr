@@ -44,7 +44,23 @@ Access apps (none on zone) · GitHub Pages interference (no CNAME file; GH canno
 | 5 | User adds literal DCV TXT in dashboard | serve token directly | rejected: "identical record already exists" (hidden internal record) |
 | 6 | Switch universal pack to HTTP DCV | bypass DNS entirely | rejected: `Allowed options: txt` (pack contains wildcard) |
 | 7 | Order NON-wildcard advanced pack, `validation_method=http` | HTTP DCV — CA fetches token over port 80 at CF edge; phantom wildcard irrelevant | REJECTED: code 1450, requires paid ACM add-on |
-| 8 | SaaS custom hostnames (`basecampyvr.ca`, `www`) with `ssl.method=http` | same HTTP-DCV bypass via Cloudflare for SaaS (free ≤100 hostnames) | **ACCEPTED** — both created 2026-07-12, Google DV certs provisioning via edge-served HTTP challenge; polling to active |
+| 8 | SaaS custom hostnames (`basecampyvr.ca`, `www`) with `ssl.method=http` | same HTTP-DCV bypass via Cloudflare for SaaS (free ≤100 hostnames) | **✅ FIXED THE OUTAGE** — Google DV certs ACTIVE 2026-07-12 10:49:59Z (www) / 10:50:29Z (apex), <2 min after order; expire 2026-10-10 |
+
+## Gate evidence (2026-07-12)
+- **G1 ✅** `GET /zones/eb83c687…/custom_hostnames` → `basecampyvr.ca: ssl_status=active` and
+  `www.basecampyvr.ca: ssl_status=active` (Google DV, method=http, issued 2026-07-12, expire 2026-10-10).
+- **G2 ✅** satisfied via HTTP DCV — no DNS token serving involved (the bypass worked by design).
+- **G3 UNVERIFIED-here** — sandbox egress policy blocks reaching basecampyvr.ca; browser handshake
+  must be confirmed user-side (hard refresh / private window).
+
+## Renewal & follow-up (owner action, non-blocking)
+- These DV certs auto-renew ~every 90 days via the same edge-served HTTP challenge — no DNS
+  dependency, so renewal is expected to work despite the zone's DNS defect.
+- The underlying zone defect (phantom proxied catch-all + unserved managed DCV records) remains and
+  still blocks the ORIGINAL universal/advanced TXT packs. File a Cloudflare report (ticket text in
+  session transcript) so they purge the corrupted serve-plane state; harmless to leave short-term.
+- `_cf-custom-hostname` ownership TXT verification is also DNS-based and may stay `pending`
+  (hostname_status) for the same reason; cert serving and routing are unaffected on this zone.
 | 9 | (fallback) API-write literal TXT (needs DNS:Edit token from user) | override serve-plane | blocked on token |
 | 10 | (last resort) Cloudflare support ticket to purge corrupted zone state | fix serve-plane desync | drafted |
 
