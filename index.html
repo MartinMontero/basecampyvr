@@ -202,9 +202,11 @@ footer a{color:rgba(242,234,216,.35);text-decoration:underline;text-underline-of
 .mm a:hover{color:var(--gold);}
 .mmx{position:absolute;top:1rem;right:1.5rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;}
 
-/* REVEAL */
-.rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
+/* REVEAL — rvSafe mirrors the old 1.5s JS failsafe in pure CSS, so content
+   is never stuck hidden even with JS disabled or blocked */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;animation:rvSafe .6s ease 1.5s forwards;}
 .rv.vis{opacity:1;transform:none;}
+@keyframes rvSafe{to{opacity:1;transform:none;}}
 .stg>.rv:nth-child(2){transition-delay:.06s;}
 .stg>.rv:nth-child(3){transition-delay:.12s;}
 .stg>.rv:nth-child(4){transition-delay:.18s;}
@@ -230,7 +232,6 @@ footer a{color:rgba(242,234,216,.35);text-decoration:underline;text-underline-of
   footer{padding:3rem 1.25rem;}
 }
 @media(max-width:400px){.am-grid{grid-template-columns:1fr;}}
-<noscript><style>.rv{opacity:1!important;transform:none!important;}</style></noscript>
 </style>
 </head>
 <body>
@@ -431,10 +432,6 @@ try{
   document.body.appendChild(s);
 })();
 
-// Failsafe: reveal all content after 1.5s even if observer fails
-setTimeout(function(){
-  document.querySelectorAll('.rv').forEach(function(el){el.classList.add('vis');});
-},1500);
 </script>
 </body>
 </html>
