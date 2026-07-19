@@ -412,11 +412,12 @@ window.addEventListener('scroll',()=>{
     t=false;
   });t=true;}
 });
-// Fix hash links — reveal target section immediately on page load
-if(window.location.hash){
-  var hashTarget=document.querySelector(window.location.hash);
+// Fix hash links — reveal target section immediately on page load.
+// Guarded: a malformed hash must never throw and kill the rest of this script.
+try{
+  var hashTarget=window.location.hash&&document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
   if(hashTarget){hashTarget.classList.add('vis');hashTarget.scrollIntoView();}
-}
+}catch(e){}
 
 // Load Tally embeds
 (function(){
