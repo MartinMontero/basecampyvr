@@ -117,7 +117,7 @@ section{position:relative;overflow:hidden;}
 .am:hover{background:var(--linen);}
 .am:hover::after{opacity:1;}
 .am svg{width:24px;height:24px;margin:0 auto .6rem;display:block;stroke:var(--teal);stroke-width:1.5;fill:none;}
-.am h4{font-family:'Fraunces',serif;font-size:.85rem;font-weight:500;color:var(--forest);margin-bottom:.15rem;}
+.am h3{font-family:'Fraunces',serif;font-size:.85rem;font-weight:500;color:var(--forest);margin-bottom:.15rem;}
 .am p{font-size:.66rem;color:var(--text-faint);line-height:1.5;font-weight:300;}
 
 /* PROGRAM */
@@ -148,7 +148,7 @@ section{position:relative;overflow:hidden;}
 .cc::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--fern));transform:scaleX(0);transform-origin:left;transition:transform .4s;}
 .cc:hover{box-shadow:0 8px 30px rgba(0,0,0,.06);transform:translateY(-3px);}
 .cc:hover::after{transform:scaleX(1);}
-.cc h4{font-family:'Fraunces',serif;font-size:1rem;font-weight:500;color:var(--forest);margin-bottom:.4rem;}
+.cc h3{font-family:'Fraunces',serif;font-size:1rem;font-weight:500;color:var(--forest);margin-bottom:.4rem;}
 .cc p{font-size:.8rem;line-height:1.75;color:var(--text-soft);font-weight:300;}
 
 /* TIMELINE */
@@ -158,7 +158,7 @@ section{position:relative;overflow:hidden;}
 .ti:last-child{padding-bottom:0;}
 .ti::before{content:'';position:absolute;left:-3rem;top:.4rem;width:8px;height:8px;background:var(--teal);border:3px solid var(--linen);border-radius:50%;transform:translateX(-3px);}
 .ti .td{font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:.15rem;}
-.ti h4{font-family:'Fraunces',serif;font-size:1rem;font-weight:500;color:var(--forest);margin-bottom:.15rem;}
+.ti h3{font-family:'Fraunces',serif;font-size:1rem;font-weight:500;color:var(--forest);margin-bottom:.15rem;}
 .ti p{font-size:.82rem;color:var(--text-soft);max-width:500px;font-weight:300;line-height:1.75;}
 
 /* FORMS */
@@ -180,6 +180,7 @@ section{position:relative;overflow:hidden;}
 .apply-intro{max-width:560px;margin-bottom:2.5rem;font-size:.92rem;color:#fff;line-height:1.85;font-weight:300;}
 .contact-intro{max-width:540px;margin-bottom:2.5rem;font-size:.92rem;color:var(--text-mid);line-height:1.85;font-weight:300;}
 .embed-wrap{max-width:720px;}
+.embed-wrap iframe{width:100%;border:0;display:block;}
 .ok{display:none;padding:1.8rem;border-radius:6px;max-width:720px;}
 .ok h3{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:400;margin-bottom:.3rem;}
 .ok p{font-size:.85rem;font-weight:300;}
@@ -332,11 +333,11 @@ footer a{color:rgba(242,234,216,.35);text-decoration:underline;text-underline-of
     </div>
   </div>
   <div class="am-grid stg">
-    <div class="am rv"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M6 20V9l6-4.5L18 9v11"/><rect x="9" y="13" width="6" height="7"/></svg><h4>Semi-Private Pods</h4><p>Share with one person</p></div>
-    <div class="am rv"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18M6 18v-6h12v6"/><circle cx="12" cy="8" r="3"/></svg><h4>Full Kitchen</h4><p>Cook, prep, share meals</p></div>
-    <div class="am rv"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><polygon points="10,11 10,17 15,14"/></svg><h4>Home Theatre</h4><p>Screenings & demos</p></div>
-    <div class="am rv"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M12 12v3"/><path d="M5 21q7-5 14 0"/></svg><h4>On the Beach</h4><p>4 min walk to Jericho</p></div>
-    <div class="am rv"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg><h4>Wi-Fi & Lounge</h4><p>Free Wi-Fi everywhere</p></div>
+    <div class="am rv"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M6 20V9l6-4.5L18 9v11"/><rect x="9" y="13" width="6" height="7"/></svg><h3>Semi-Private Pods</h3><p>Share with one person</p></div>
+    <div class="am rv"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18M6 18v-6h12v6"/><circle cx="12" cy="8" r="3"/></svg><h3>Full Kitchen</h3><p>Cook, prep, share meals</p></div>
+    <div class="am rv"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><polygon points="10,11 10,17 15,14"/></svg><h3>Home Theatre</h3><p>Screenings & demos</p></div>
+    <div class="am rv"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M12 12v3"/><path d="M5 21q7-5 14 0"/></svg><h3>On the Beach</h3><p>4 min walk to Jericho</p></div>
+    <div class="am rv"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg><h3>Wi-Fi & Lounge</h3><p>Free Wi-Fi everywhere</p></div>
   </div>
 </div></section>
 
@@ -361,12 +362,12 @@ footer a{color:rgba(242,234,216,.35);text-decoration:underline;text-underline-of
   <h2 class="hd rv">Plugged into <em>Vancouver</em></h2>
   <div class="ci rv"><p>Basecamp is embedded in the communities that will challenge your work, open doors, and give you a lasting network in one of the most livable cities on the Pacific Rim.</p></div>
   <div class="cg stg">
-    <div class="cc rv"><h4>Creative Community</h4><p>Writers, filmmakers, designers, visual artists, musicians — open studios, residency events, and connections with people making interesting work.</p></div>
-    <div class="cc rv"><h4>Startup & Entrepreneurship</h4><p>Founder meetups, pitch events, coworking communities, and mentorship networks. Whether you're pre-revenue or scaling.</p></div>
-    <div class="cc rv"><h4>Open Source & Dev</h4><p>A strong open-source developer community spanning decentralized tech, freedom tech, web infrastructure, and more.</p></div>
-    <div class="cc rv"><h4>University & Research</h4><p>UBC is a ten-minute bus ride. SFU, BCIT, and Emily Carr are all accessible. Academic communities and research labs.</p></div>
-    <div class="cc rv"><h4>Civic & Community Building</h4><p>Active networks building for the public good — housing, climate, cooperative models. If your work serves communities, you'll find your people.</p></div>
-    <div class="cc rv"><h4>The Outdoors</h4><p>Mountains, ocean, old-growth forest — all within reach on foot or by bus. The environment that keeps the work honest.</p></div>
+    <div class="cc rv"><h3>Creative Community</h3><p>Writers, filmmakers, designers, visual artists, musicians — open studios, residency events, and connections with people making interesting work.</p></div>
+    <div class="cc rv"><h3>Startup & Entrepreneurship</h3><p>Founder meetups, pitch events, coworking communities, and mentorship networks. Whether you're pre-revenue or scaling.</p></div>
+    <div class="cc rv"><h3>Open Source & Dev</h3><p>A strong open-source developer community spanning decentralized tech, freedom tech, web infrastructure, and more.</p></div>
+    <div class="cc rv"><h3>University & Research</h3><p>UBC is a ten-minute bus ride. SFU, BCIT, and Emily Carr are all accessible. Academic communities and research labs.</p></div>
+    <div class="cc rv"><h3>Civic & Community Building</h3><p>Active networks building for the public good — housing, climate, cooperative models. If your work serves communities, you'll find your people.</p></div>
+    <div class="cc rv"><h3>The Outdoors</h3><p>Mountains, ocean, old-growth forest — all within reach on foot or by bus. The environment that keeps the work honest.</p></div>
   </div>
 </div></section>
 
@@ -374,10 +375,10 @@ footer a{color:rgba(242,234,216,.35);text-decoration:underline;text-underline-of
   <div class="ey rv">Key Dates</div>
   <h2 class="hd rv">Timeline</h2>
   <div class="tl">
-    <div class="ti rv"><div class="td">Now — September 2026</div><h4>Applications Open</h4><p>Submit your interest. Rolling review — earlier applications get priority.</p></div>
-    <div class="ti rv"><div class="td">October 1, 2026</div><h4>Program Begins</h4><p>First cohort arrives. Orientation, community onboarding, goal-setting.</p></div>
-    <div class="ti rv"><div class="td">October 2026 — May 2027</div><h4>Rolling Cohorts</h4><p>New participants join as spots open. Stay for the duration your project needs.</p></div>
-    <div class="ti rv"><div class="td">May 1, 2027</div><h4>Season Closes</h4><p>Final cohort wraps. Showcase event and community celebration.</p></div>
+    <div class="ti rv"><div class="td">Now — September 2026</div><h3>Applications Open</h3><p>Submit your interest. Rolling review — earlier applications get priority.</p></div>
+    <div class="ti rv"><div class="td">October 1, 2026</div><h3>Program Begins</h3><p>First cohort arrives. Orientation, community onboarding, goal-setting.</p></div>
+    <div class="ti rv"><div class="td">October 2026 — May 2027</div><h3>Rolling Cohorts</h3><p>New participants join as spots open. Stay for the duration your project needs.</p></div>
+    <div class="ti rv"><div class="td">May 1, 2027</div><h3>Season Closes</h3><p>Final cohort wraps. Showcase event and community celebration.</p></div>
   </div>
 </div></section>
 
@@ -386,7 +387,7 @@ footer a{color:rgba(242,234,216,.35);text-decoration:underline;text-underline-of
   <h2 class="hd rv">Apply for Basecamp</h2>
   <p class="apply-intro rv">We're looking for people ready to build. Entrepreneurs, creators, writers, civic technologists, designers, organizers — if you have a project and the drive to launch it, we want to hear from you.</p>
   <div class="rv embed-wrap">
-    <iframe data-tally-src="https://tally.so/embed/vGLqGQ?alignLeft=1&hideTitle=1&dynamicHeight=1" loading="lazy" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0" title="Basecamp Residency Application"></iframe>
+    <iframe data-tally-src="https://tally.so/embed/vGLqGQ?alignLeft=1&hideTitle=1&dynamicHeight=1" loading="lazy" height="500" title="Basecamp Residency Application"></iframe>
   </div>
 </div></section>
 
@@ -397,7 +398,7 @@ footer a{color:rgba(242,234,216,.35);text-decoration:underline;text-underline-of
   <h2 class="hd rv">Contact Us</h2>
   <p class="contact-intro rv">Questions about the program, interested in sponsoring or partnering, or just want to connect — reach out below.</p>
   <div class="rv embed-wrap">
-    <iframe data-tally-src="https://tally.so/embed/RGY8Mp?alignLeft=1&hideTitle=1&dynamicHeight=1" loading="lazy" width="100%" height="400" frameborder="0" marginheight="0" marginwidth="0" title="Basecamp Contact"></iframe>
+    <iframe data-tally-src="https://tally.so/embed/RGY8Mp?alignLeft=1&hideTitle=1&dynamicHeight=1" loading="lazy" height="400" title="Basecamp Contact"></iframe>
   </div>
 </div></section>
 
