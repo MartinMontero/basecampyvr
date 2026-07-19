@@ -1,0 +1,6 @@
+/*
+  Content-Security-Policy: default-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'sha256-b+5qjYlST8vZxPdwEU7i3gLyeky2zYYyruBzIv+L0Hc=' 'sha256-acNkB69DRis3oZPj7+0vParGA/CWYmCA0I9J5MnoDRE=' https://tally.so; frame-src https://tally.so; connect-src https://tally.so
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
