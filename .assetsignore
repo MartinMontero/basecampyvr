@@ -1,1 +1,6 @@
-LOOP.md
+.git
+.wrangler
+*.md
+LICENSE
+wrangler.jsonc
+.nojekyll
