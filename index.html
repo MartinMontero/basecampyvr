@@ -252,12 +252,12 @@ footer a{color:rgba(242,234,216,.35);text-decoration:underline;text-underline-of
     <li><a href="#contact">Contact</a></li>
     <li><a href="#apply" class="ncta">Apply</a></li>
   </ul>
-  <button class="burger" aria-label="Menu">
+  <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="mmenu">
     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
 </nav>
 
-<div class="mm">
+<div class="mm" id="mmenu">
   <button class="mmx">&times;</button>
   <a href="#about">About</a>
   <a href="model.html">Our Model</a>
@@ -424,11 +424,22 @@ try{
   if(hashTarget){hashTarget.classList.add('vis');hashTarget.scrollIntoView();}
 }catch(e){}
 
-// Mobile menu
-var mm=document.querySelector('.mm');
-document.querySelector('.burger').addEventListener('click',function(){mm.classList.add('open');});
-document.querySelector('.mmx').addEventListener('click',function(){mm.classList.remove('open');});
-mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){mm.classList.remove('open');});});
+// Mobile menu — keyboard accessible: Escape closes, focus moves in and is trapped
+var mm=document.querySelector('.mm'),burger=document.querySelector('.burger');
+function menuOpen(){mm.classList.add('open');burger.setAttribute('aria-expanded','true');mm.querySelector('.mmx').focus();}
+function menuClose(refocus){mm.classList.remove('open');burger.setAttribute('aria-expanded','false');if(refocus)burger.focus();}
+burger.addEventListener('click',menuOpen);
+document.querySelector('.mmx').addEventListener('click',function(){menuClose(true);});
+mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menuClose(false);});});
+document.addEventListener('keydown',function(e){
+  if(!mm.classList.contains('open'))return;
+  if(e.key==='Escape'){menuClose(true);return;}
+  if(e.key==='Tab'){
+    var f=mm.querySelectorAll('button,a'),first=f[0],last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  }
+});
 
 // Load Tally embeds
 (function(){
