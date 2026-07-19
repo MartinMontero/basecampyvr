@@ -101,6 +101,10 @@ footer a{color:rgba(242,234,216,.35);}
   .hub-grid{grid-template-columns:1fr;}
   .hero-sm{padding:6rem 1.25rem 3rem;}
 }
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+}
 </style>
 </head>
 <body>

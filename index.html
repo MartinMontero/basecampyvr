@@ -236,6 +236,12 @@ footer a{color:rgba(242,234,216,.35);text-decoration:underline;text-underline-of
   footer{padding:3rem 1.25rem;}
 }
 @media(max-width:400px){.am-grid{grid-template-columns:1fr;}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+  .hero-logo,.hero h1,.hero-sub,.hero-pills,.hero-btns,.scroll-line{opacity:1;animation:none;}
+  .rv{opacity:1;transform:none;animation:none;}
+}
 </style>
 </head>
 <body>
@@ -410,8 +416,9 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
 
 let t=false;
+const prm=window.matchMedia('(prefers-reduced-motion: reduce)');
 window.addEventListener('scroll',()=>{
-  if(!t){requestAnimationFrame(()=>{
+  if(!t&&!prm.matches){requestAnimationFrame(()=>{
     const s=scrollY,h=innerHeight;
     if(s<h){const c=document.querySelector('.hero-content');if(c){c.style.transform='translateY('+s*.18+'px)';c.style.opacity=Math.max(0,1-s/(h*.6));}}
     t=false;
