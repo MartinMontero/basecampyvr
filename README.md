@@ -1,80 +1,75 @@
 # Basecamp — Creator & Entrepreneur Residency
 
-A residency for creators, entrepreneurs, and community builders. Focused housing on Jericho Beach, Vancouver. From idea to launch — together.
+A residency for creators, entrepreneurs, and community builders. Focused housing at HI Jericho Beach, Vancouver BC — October 2026 – May 2027, $600/month all-in. From idea to launch — together.
 
-**October 2026 – May 2027 · HI Jericho Beach · $600/month all-in**
+Live site: **https://basecampyvr.ca** (also `www.basecampyvr.ca`; interim mirror `basecampyvr.these3remain.workers.dev`)
 
-## About
+The program structure draws from the [PIE Cookbook](https://github.com/MartinMontero/pie-cookbook) and the [AOS Hubs](https://github.com/andotherstuff/aos-hubs) model — see [/model](https://basecampyvr.ca/model). Basecamp continues a model first built in Philadelphia in 2014 ([Generocity coverage](https://generocity.org/philly/2014/02/25/former-halfway-house-becomes-shared-living-space-for-entrepreneurs-in-brewerytown/)).
 
-Basecamp is a live-and-build residency at HI Jericho Beach in Kitsilano, Vancouver BC. Residents join rolling cohorts of 4–8 weeks to take their work from idea to a fully working version one — with support from Vancouver's creative, entrepreneurial, open-source, and university communities.
+## Stack
 
-The program structure draws from the [PIE Cookbook](https://github.com/MartinMontero/pie-cookbook) accelerator methodology, adapted for a residency format that serves founders, writers, artists, civic technologists, and anyone whose work demands sustained focus and extended runway.
+- **Hosting:** Cloudflare Worker **static assets** — worker `basecampyvr`, configured in `wrangler.jsonc` (assets-only, no Worker script, no `main`)
+- **Architecture:** self-contained HTML files — inline CSS, inline JS, base64-inlined images. No build step, no framework, no dependencies
+- **Forms:** [Tally](https://tally.so) embeds — application `vGLqGQ`, contact `RGY8Mp`. Loaded by `embed.js`; if that script fails, an `onerror` fallback sets each iframe's `src` directly; a visible caption under each embed links the direct form URL and email as a last resort
+- **Fonts:** [Fraunces](https://fonts.google.com/specimen/Fraunces) + [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) via Google Fonts (`display=swap`, generic serif/sans fallbacks — the site stays readable if Google Fonts is unreachable)
+- **External origins:** Google Fonts and Tally. Nothing else.
 
-Basecamp is the Vancouver continuation of a model first built in Philadelphia in 2014 ([Generocity coverage](https://generocity.org/philly/2014/02/25/former-halfway-house-becomes-shared-living-space-for-entrepreneurs-in-brewerytown/)).
-
-## Site
-
-The site is a single self-contained `index.html` file hosted on GitHub Pages. All images (photography and logo), CSS, and JavaScript are embedded directly — no external dependencies beyond Google Fonts.
-
-### Repository structure
+## Repository structure
 
 ```
 basecampyvr/
-├── LICENSE
-├── README.md
-└── index.html    ← entire site (HTML + CSS + JS + images)
+├── index.html      landing page (HTML + CSS + JS + images, self-contained)
+├── model.html      "Our Model" page
+├── 404.html        styled not-found page
+├── _headers        CSP + security headers (parsed by Workers, not served)
+├── wrangler.jsonc  Worker config: assets directory ".", 404-page handling
+├── .assetsignore   keeps .git, docs, config out of the served assets
+├── LICENSE         MPL-2.0
+└── *.md            docs (excluded from serving via .assetsignore)
 ```
 
-### Live site
+## Local development
 
-`https://martinmontero.github.io/basecampyvr/`
+```sh
+npx wrangler dev --persist-to "$(mktemp -d)"
+```
 
-## Forms
+The `--persist-to` (any directory outside the repo) matters: the assets directory is `"."`, and without it wrangler writes its `.wrangler` state inside the watched directory and reloads in an infinite loop, never serving.
 
-The site has two forms:
+Routing (Workers `auto-trailing-slash` default): `/` serves index.html; `/model` serves model.html (200); `/model.html` and `/model/` redirect 307 → `/model`; unknown paths get 404.html with a 404 status.
 
-- **Application form** — for prospective residents (name, email, discipline, preferred dates, housing preference, project description)
-- **Contact form** — for general questions, sponsorship opportunities, partnership opportunities, and media inquiries
+## Deploy
 
-Both currently use `mailto:scoutmontero@gmail.com` — when submitted, they open the user's email client pre-filled with the form data.
+```sh
+npx wrangler deploy
+```
 
-### Upgrading to Tally (recommended)
+Uploads exactly three assets — `index.html`, `model.html`, `404.html` — plus the `_headers` rules as configuration. Everything else (`.git`, `.wrangler`, `*.md`, `LICENSE`, `wrangler.jsonc`, `.nojekyll`) is excluded by `.assetsignore`. Verify after deploying:
 
-For a proper submission dashboard with filtering, export, and email notifications:
+```sh
+curl -sI https://basecampyvr.ca/ | grep -i content-security-policy
+curl -s -o /dev/null -w '%{http_code}\n' https://basecampyvr.ca/.git/HEAD   # must be 404
+```
 
-1. Sign up at [tally.so](https://tally.so) (free, unlimited submissions).
-2. Create two forms: **Basecamp Applications** and **Basecamp Contact**.
-3. In each Tally form's settings, enable email notifications to `scoutmontero@gmail.com`.
-4. In `index.html`, replace the `onsubmit="sub(event,'af','ao')"` and `onsubmit="sub(event,'cf','co')"` handlers with Tally's embed or API endpoints.
+### If you change an inline `<script>`
 
-Tally also integrates with Google Sheets, Notion, Airtable, and Slack for real-time tracking.
+The CSP in `_headers` locks `script-src` to sha256 hashes of the two inline scripts. After editing either page's script block, regenerate and update both hashes in `_headers`, or the page's JS will not run:
 
-## Housing
+```sh
+python3 -c "import re,hashlib,base64,sys;[print(sys.argv[i],['sha256-'+base64.b64encode(hashlib.sha256(m.encode()).digest()).decode() for m in re.findall(r'<script>(.*?)</script>',open(sys.argv[i]).read(),re.S)]) for i in (1,2)]" index.html model.html
+```
 
-| Option | Price | Details |
-|--------|-------|---------|
-| Shared Pod | $600/month | Privacy-enclosed pod, shared with one other person. All utilities included. |
-| Private Room | Inquire | Limited availability. Pricing varies by room type and duration. |
+(If the JS ever fails anyway, content still renders: a CSS-only failsafe reveals everything at 1.5 s, with or without JavaScript.)
 
-Both options include: utilities, Wi-Fi, kitchen access, home theatre, lounge and common areas, on-site laundry, and secure storage.
+## Forms (Tally)
 
-## Key Dates
+Both forms live in the owner's Tally account (submission dashboard, email notifications to scoutmontero@gmail.com, export/integrations). To change a form, edit it in Tally; to swap forms, replace the embed IDs in `index.html` (`tally.so/embed/<id>` in the iframes and `tally.so/r/<id>` in the fallback captions).
 
-| When | What |
-|------|------|
-| Now – September 2026 | Applications open (rolling review) |
-| October 1, 2026 | Program begins, first cohort arrives |
-| October 2026 – May 2027 | Rolling cohorts (4–8 week stays) |
-| May 1, 2027 | Season closes |
+## Certificates / domain notes (owner)
 
-## Tech Stack
-
-- **Hosting:** GitHub Pages
-- **Architecture:** Single self-contained HTML file (no build step, no framework)
-- **Forms:** mailto fallback (upgradeable to Tally.so)
-- **Fonts:** [Fraunces](https://fonts.google.com/specimen/Fraunces) + [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) via Google Fonts
-- **Images:** Base64-encoded inline (BC landscape photography + Basecamp logo)
-- **Dependencies:** None
+- Edge TLS for `basecampyvr.ca`/`www` is served via Cloudflare-for-SaaS custom hostnames — Google DV certs issued 2026-07-12, expiring 2026-10-10, auto-renewal ~90-day via edge HTTP DCV expected to succeed despite the zone's DNS defect (see `LOOP.md` for the full outage record).
+- The underlying zone serve-plane defect still blocks TXT-based validation paths; resolving it is a Cloudflare-support matter (`LOOP.md` §Renewal & follow-up).
+- A legacy **GitHub Pages** deployment still builds this repo on every push and publishes a duplicate at `martinmontero.github.io/basecampyvr`. Retire it in repo **Settings → Pages** when ready (then `.nojekyll` can go too); harmless meanwhile.
 
 ## License
 
