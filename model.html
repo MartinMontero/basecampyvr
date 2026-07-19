@@ -115,19 +115,19 @@ footer a{color:rgba(242,234,216,.35);}
     <li><a href="index.html#contact">Contact</a></li>
     <li><a href="index.html#apply" class="ncta">Apply</a></li>
   </ul>
-  <button class="burger" onclick="document.querySelector('.mm').classList.add('open')" aria-label="Menu">
+  <button class="burger" aria-label="Menu">
     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
 </nav>
 
 <div class="mm">
-  <button class="mmx" onclick="this.parentElement.classList.remove('open')">&times;</button>
-  <a href="index.html" onclick="this.parentElement.classList.remove('open')">Home</a>
-  <a href="model.html" onclick="this.parentElement.classList.remove('open')">Our Model</a>
-  <a href="index.html#program" onclick="this.parentElement.classList.remove('open')">Program</a>
-  <a href="index.html#community" onclick="this.parentElement.classList.remove('open')">Community</a>
-  <a href="index.html#contact" onclick="this.parentElement.classList.remove('open')">Contact</a>
-  <a href="index.html#apply" onclick="this.parentElement.classList.remove('open')">Apply</a>
+  <button class="mmx">&times;</button>
+  <a href="index.html">Home</a>
+  <a href="model.html">Our Model</a>
+  <a href="index.html#program">Program</a>
+  <a href="index.html#community">Community</a>
+  <a href="index.html#contact">Contact</a>
+  <a href="index.html#apply">Apply</a>
 </div>
 
 <div class="hero-sm">
@@ -266,5 +266,12 @@ footer a{color:rgba(242,234,216,.35);}
   </div>
 </footer>
 
+<script>
+// Mobile menu
+var mm=document.querySelector('.mm');
+document.querySelector('.burger').addEventListener('click',function(){mm.classList.add('open');});
+document.querySelector('.mmx').addEventListener('click',function(){mm.classList.remove('open');});
+mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){mm.classList.remove('open');});});
+</script>
 </body>
 </html>
