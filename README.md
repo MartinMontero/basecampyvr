@@ -53,10 +53,9 @@ Tally also integrates with Google Sheets, Notion, Airtable, and Slack for real-t
 
 | Option | Price | Details |
 |--------|-------|---------|
-| Shared Pod | $600/month | Privacy-enclosed pod, shared with one other person. All utilities included. |
-| Private Room | Inquire | Limited availability. Pricing varies by room type and duration. |
+| Shared Pod | $600/month | Privacy-enclosed pod, shared with one other person. Includes utilities, Wi-Fi, kitchen access, home theatre, lounge and common areas, on-site laundry, and secure storage. |
 
-Both options include: utilities, Wi-Fi, kitchen access, home theatre, lounge and common areas, on-site laundry, and secure storage.
+The shared pod is the only housing option.
 
 ## Key Dates
 
