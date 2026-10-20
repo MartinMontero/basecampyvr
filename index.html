@@ -560,19 +560,38 @@ window.addEventListener('scroll',()=>{
   });t=true;}
 });
 // Fix hash links — reveal target section immediately on page load (and when the hash changes)
-function revealHash(){
+function hashEl(){
   var id=window.location.hash.slice(1);
-  if(!id)return;
+  if(!id)return null;
   try{id=decodeURIComponent(id);}catch(e){}
-  var hashTarget=document.getElementById(id);
-  if(hashTarget){
-    hashTarget.classList.add('vis');
-    hashTarget.querySelectorAll('.rv').forEach(function(el){el.classList.add('vis');});
-    hashTarget.scrollIntoView();
-  }
+  return document.getElementById(id);
 }
-revealHash();
-window.addEventListener('hashchange',revealHash);
+function jumpTo(el){
+  // Jump instantly: the page has smooth scrolling, and a smooth scroll that is still running
+  // when the page finishes loading would overshoot the target.
+  try{el.scrollIntoView({behavior:'instant'});}catch(e){el.scrollIntoView();}
+}
+function revealHash(scroll){
+  var hashTarget=hashEl();
+  if(!hashTarget)return;
+  hashTarget.classList.add('vis');
+  hashTarget.querySelectorAll('.rv').forEach(function(el){el.classList.add('vis');});
+  if(scroll)jumpTo(hashTarget);
+}
+revealHash(true);
+window.addEventListener('hashchange',function(){revealHash(false);});
+// Web fonts load after the first jump and change line wraps, so the target can end up short.
+// Re-align once fonts and the page have loaded, unless the visitor has already started scrolling.
+var userMoved=false;
+['wheel','touchstart','keydown','mousedown'].forEach(function(ev){window.addEventListener(ev,function(){userMoved=true;},{passive:true,once:true});});
+function realignHash(){
+  var hashTarget=hashEl();
+  if(hashTarget&&!userMoved)jumpTo(hashTarget);
+}
+if(window.location.hash){
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(realignHash);
+  window.addEventListener('load',realignHash);
+}
 
 // Load Tally embeds
 (function(){
